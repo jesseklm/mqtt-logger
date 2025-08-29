@@ -24,7 +24,7 @@ class MqttHandler:
         self.mqttc.on_message = self.on_message
         self.mqttc.set_auth_credentials(config['mqtt_username'], config['mqtt_password'])
 
-    def on_connect(self, client, flags, rc, properties):
+    def on_connect(self, client: MQTTClient, flags, rc, properties):
         self.publish('available', 'online', retain=True)
         logging.info('mqtt connected.')
         if client.subscriptions:
