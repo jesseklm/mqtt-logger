@@ -5,7 +5,7 @@ import signal
 from config import get_first_config
 from mqtt_handler import MqttHandler
 
-__version__ = '0.0.2'
+__version__ = '0.0.3'
 
 
 class MqttLogger:
@@ -23,10 +23,6 @@ class MqttLogger:
             else:
                 logging.warning(f'unknown logging level: %s.', logging_level)
 
-    async def connect(self):
-        while not await self.mqtt_handler.connect():
-            await asyncio.sleep(1)
-
     @staticmethod
     async def handle_mqtt_message(topic: str, payload: str):
         logging.info('%s > %s', topic, payload)
@@ -37,7 +33,6 @@ class MqttLogger:
 
 async def main():
     mqtt_logger = MqttLogger()
-    await mqtt_logger.connect()
     loop = asyncio.get_running_loop()
     main_task = asyncio.current_task()
 
